@@ -1,15 +1,15 @@
-resource "aws_instance" "Dev" {
-ami = var.amiid
-instance_type = var.instance_type
-key_name = var.key_name
 
+resource "aws_s3_bucket" "example"{
+bucket = "ruchabucket"
 }
 
+
+
 resource "aws_dynamodb_table" "terraform_lock" {
-  name         = "terraform-state-lock"
+  name         = "terraform-state-lock-dynamo"
   hash_key     = "LockID"
-  read_capacity = 20
-  write_capacity = 20
+  read_capacity = 5
+  write_capacity = 5
   attribute {
     name = "LockID"
     type = "S"

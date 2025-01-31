@@ -1,10 +1,11 @@
+
 terraform {
   backend "s3" {
     bucket         = "ruchabucket"  # Replace with your S3 bucket name
     key            = "terraform.tfstate"  # Path in the S3 bucket where the state file will be stored
     region         = "eu-north-1" 
      encrypt        = true                         # Enable encryption for state file
-    dynamodb_table = "terraform-state-lock"                  # The AWS region for your S3 bucket
+    dynamodb_table = "terraform-state-lock-dynamo"                  # The AWS region for your S3 bucket
   }
 }
 
