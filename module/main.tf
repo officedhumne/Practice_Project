@@ -1,18 +1,6 @@
-resource "aws_instance" "Dev" {
-ami = var.amiid
-instance_type = var.instance_type
-key_name = var.key_name
-
+module "test"{
+  source = "../Modulex2"
+amiid = "ami-00d65612a46d1c5f3"
+instance_type ="t3.micro"
+key_name = "first"
 }
-
-resource "aws_dynamodb_table" "terraform_lock" {
-  name         = "terraform-state-lock"
-  hash_key     = "LockID"
-  read_capacity = 20
-  write_capacity = 20
-  attribute {
-    name = "LockID"
-    type = "S"
-  }
-
-  }
