@@ -10,17 +10,24 @@
     associate_public_ip_address = true
 
 
-    # Connect using WinRM
+     # Connect using WinRM
   connection {
     type     = "winrm"
     user     = "Administrator"
-    password = "e$;P4kM?-6iuuEy?(PB4l(11P0P1vhwh"  # Avoid hardcoding passwords
+    password = "m7O$Hn@WrfIkli&V-EaNUnffL&eM)Xm."  # Avoid hardcoding passwords
     host     = self.public_ip
   }
-   #Connect via WinRM (Windows Remote Management)
+provisioner "remote-exec" {
+  inline = [
+    "Enable-PSRemoting -Force",
+    "Set-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System' -Name 'LocalAccountTokenFilterPolicy' -Value 1"
+  ]
+}
+ # Disable the Windows Firewall using remote-exec
   provisioner "remote-exec" {
     inline = [
-      "echo 'Hello, World!' > C:/Windows/Temp/hello.txt"
+      # Disable the firewall for all profiles (Public, Private, Domain)
+      "Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled False"
     ]
   }
   # Upload file
@@ -28,6 +35,19 @@
    source      = "D:/Terrafarm/Practice_Project/file.txt"  # Local file path
     destination = "C:/Windows/Temp/file.txt"  # EC2 destination path
   }
+   
+  # Local-exec provisioner to run a command on your local machine
+  provisioner "local-exec" {
+    command = "echo 'File upload completed!'"
+  }
+
+ provisioner "remote-exec" {
+    inline = [
+      "if (Test-Path 'C:/Windows/Temp/file.txt') { Write-Output 'File exists!' } else { Write-Output 'File not found!' }"
+    ]
+  
+  }
+ 
   }
 
    # Execute remote commands (e.g., PowerShell)
