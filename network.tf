@@ -79,7 +79,21 @@ ingress{
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]  
 }
-  }
+  
+
+  ingress{
+  from_port   = 3389
+  to_port     = 3389
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]  # Replace with specific IPs or ranges for better security
+}
+ingress {
+  from_port   = 5985
+  to_port     = 5985
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]  # Or restrict to your IP address for better security
+}
+}
 
 
   # Create the NAT Gateway
@@ -87,3 +101,5 @@ resource "aws_nat_gateway" "example" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public.id
 }
+
+
