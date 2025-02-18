@@ -10,11 +10,14 @@
     associate_public_ip_address = true
 
 
-     # Connect using WinRM
+
+
+/*
+     #Connect using WinRM
   connection {
     type     = "winrm"
-    user     = "Administrator"
-    password = "m7O$Hn@WrfIkli&V-EaNUnffL&eM)Xm."  # Avoid hardcoding passwords
+     user     = "Administrator"
+    password = "U*dc2$iy;feJclyxTqmLqr%%8H%(n*mJ"  # Avoid hardcoding passwords
     host     = self.public_ip
   }
 provisioner "remote-exec" {
@@ -46,9 +49,10 @@ provisioner "remote-exec" {
       "if (Test-Path 'C:/Windows/Temp/file.txt') { Write-Output 'File exists!' } else { Write-Output 'File not found!' }"
     ]
   
-  }
+  }*/
  
-  }
+
+  
 
    # Execute remote commands (e.g., PowerShell)
   #provisioner "remote-exec" {
