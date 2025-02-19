@@ -8,18 +8,57 @@
     subnet_id = aws_subnet.public.id
     vpc_security_group_ids = [aws_security_group.allow_tls.id]
     associate_public_ip_address = true
+    
+    }
+# This block can be used to retrieve the admin password using the key pair
+  
+  
+  
+  data "aws_instance" "windows_instance" {
+  instance_id = "i-0c06e0f3adb929356"  # Replace with your EC2 instance ID
+}
+
+  resource "null_resource" "upload_file" {
+  depends_on = [data.aws_instance.windows_instance]
+
+    
+  
+
+# Upload file
+  provisioner "file" {
+   source      = "D:/Terrafarm/Practice_Project/file.txt"  # Local file path
+    destination = "C:/Windows/Temp/file.txt"  # EC2 destination path
+  
+
+
+     #Connect using WinRM
+  connection {
+    type     = "winrm"
+     host     = data.aws_instance.windows_instance.public_ip
+     user     = "Administrator"
+      password ="WG)2E9*(LFFto2WBrOp-?D?$qoGg(v7Z"  # Avoid hardcoding passwords
+      port     = 5986
+   
+     insecure    = true
+  }
+  }
+  }
+  
+
+output "instance_id" {
+  value = data.aws_instance.windows_instance.id
+}
+
+
+/*
+output "windows_password" {
+  value = aws_instance.windows_instance.password_data
+}
 
 
 
 
 /*
-     #Connect using WinRM
-  connection {
-    type     = "winrm"
-     user     = "Administrator"
-    password = "U*dc2$iy;feJclyxTqmLqr%%8H%(n*mJ"  # Avoid hardcoding passwords
-    host     = self.public_ip
-  }
 provisioner "remote-exec" {
   inline = [
     "Enable-PSRemoting -Force",
@@ -33,11 +72,7 @@ provisioner "remote-exec" {
       "Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled False"
     ]
   }
-  # Upload file
-  provisioner "file" {
-   source      = "D:/Terrafarm/Practice_Project/file.txt"  # Local file path
-    destination = "C:/Windows/Temp/file.txt"  # EC2 destination path
-  }
+  
    
   # Local-exec provisioner to run a command on your local machine
   provisioner "local-exec" {

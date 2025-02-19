@@ -93,6 +93,12 @@ ingress {
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]  # Or restrict to your IP address for better security
 }
+ingress {
+  from_port   = 5986
+  to_port     = 5986
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]  # Or restrict to your IP address for better security
+}
 }
 
 
