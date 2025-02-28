@@ -1,5 +1,12 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = ">4.0, <5.0"
+    }
+  }
+}
+
 provider "aws" {
- profile = "Rucha"  
- shared_credentials_files  = ["C:/Users/rucha/.aws/credentials"]      # Ensure this profile exists in your ~/.aws/credentials file
-  region  = "eu-north-1"
+  region = "eu-north-1"
 }
