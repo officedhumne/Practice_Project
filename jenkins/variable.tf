@@ -18,3 +18,14 @@ variable "name" {
   description = "The name of the EC2 instance."
   default = ""
 }
+variable "aws_access_key" {
+  type        = string
+  description = "The AWS Access Key"
+  sensitive   = true
+}
+
+variable "aws_secret_key" {
+  type        = string
+  description = "The AWS Secret Key"
+  sensitive   = true
+}
